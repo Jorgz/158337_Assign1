@@ -76,10 +76,19 @@ CREATE TABLE lease
 (
     -- unsure about the current modelling of lease and bedrooms etc.
     lea_id INTEGER NOT NULL UNIQUE,
-    lea_duration VARCHAR2 NOT NULL,
-    lea_start DATE NOT NULL,
+    lea_duration VARCHAR2(20) NOT NULL,
+    lea_start DATE NOT NULL CHECK(lea_start > STSDATE),
     lea_end DATE NOT NULL,
     lea_student INTEGER NOT NULL
+
+    PRIMARY KEY(lease)
+);
+
+ALTER TABLE lease
+  modify (
+    -- check to make sure the end date of a lease is not before the start date, has to be done as an ALTER as Oracle SQL does not 
+    -- support referencing two columns during table create as part of a CHECK 
+    CONSTRAINT chk_valid_date CHECK(lea_start < lea_end)
 );
 
 CREATE TABLE student 
