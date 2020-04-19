@@ -1,6 +1,6 @@
 CREATE TABLE department
 (
-    dep_id INTEGER NOT NULL UNIQUE,
+    dep_id INTEGER,
     dep_name VARCHAR2(20) NOT NULL,
     dep_director VARCHAR2(20) NOT NULL,
     dep_phone NUMBER NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE department
 
 CREATE TABLE degree
 (
-    deg_id INTEGER NOT NULL UNIQUE,
+    deg_id INTEGER,
     deg_name VARCHAR2(20) NOT NULL UNIQUE,
     deg_length INTEGER NOT NULL,
     deg_department INTEGER NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE degree
 
 CREATE TABLE advisor
 (
-    adv_id INTEGER NOT NULL UNIQUE,
+    adv_id INTEGER,
     adv_fname VARCHAR2(20) NOT NULL,
     adv_lname VARCHAR2(20) NOT NULL,
     adv_position VARCHAR2(20) NOT NULL,
@@ -30,14 +30,14 @@ CREATE TABLE advisor
     adv_room INTEGER NOT NULL,
     adv_department INTEGER NOT NULL,
 
-    PRIMARY KEY (adv_id)
+    PRIMARY KEY (adv_id),
     FOREIGN KEY (adv_department) REFERENCES department(dep_id)
     
 );
 
 CREATE TABLE next_of_kin
 (
-    nok_id INTEGER NOT NULL UNIQUE,
+    nok_id INTEGER,
     nok_fname VARCHAR(20) NOT NULL,
     nok_lname VARCHAR(20) NOT NULL,
     nok_relationship VARCHAR(12) NOT NULL,
@@ -48,24 +48,27 @@ CREATE TABLE next_of_kin
 
 CREATE TABLE staff
 (
-    stf_id INTEGER NOT NULL UNIQUE,
+    stf_id INTEGER,
     stf_fname VARCHAR2(20) NOT NULL,
     stf_lname VARCHAR2(20) NOT NULL,
-    stf_address VARCHAR2(40) NOT NULL,
+    stf_addr_num INTEGER NOT NULL,
+    stf_addr_street VARCHAR2(30) NOT NULL,
+    stf_addr_street_type VARCHAR2(12) NOT NULL,
+    stf_addr_suburb VARCHAR2(24) NOT NULL,
     stf_dob DATE NOT NULL,
-    stf_sex CHAR(1) NOT NULL CHECK(stf_sex IN('m', 'f')),
-    stf_position VARCHAR(20) NOT NULL,
-    stf_location VARCHAR(20) NOT NULL DEFAULT 'Acommodation Office',
+    stf_sex CHAR(1) NOT NULL CHECK (stf_sex IN('m', 'f')),
+    stf_position VARCHAR2(20) NOT NULL,
+    stf_location VARCHAR2(20) DEFAULT ('Acommodation Office'),
 
     PRIMARY KEY (stf_id)
 );
 
 CREATE TABLE inspection
 (
-    ins_id INTEGER NOT NULL UNIQUE,
+    ins_id INTEGER,
     ins_date DATE NOT NULL,
-    ins_satisfactory BOOLEAN NOT NULL,
-    ins_comments VARCHAR(240),
+    ins_satisfactory NUMBER(1) NOT NULL CHECK (ins_satisfactory BETWEEN 0 AND 1),
+    ins_comments VARCHAR2(240),
     ins_inspector INTEGER NOT NULL,
 
     PRIMARY KEY(ins_id),
@@ -75,7 +78,7 @@ CREATE TABLE inspection
 CREATE TABLE lease
 (
     -- unsure about the current modelling of lease and bedrooms etc.
-    lea_id INTEGER NOT NULL UNIQUE,
+    lea_id INTEGER,
     lea_duration VARCHAR2(20) NOT NULL,
     lea_start DATE NOT NULL CHECK(lea_start > STSDATE),
     lea_end DATE NOT NULL,
@@ -93,7 +96,7 @@ ALTER TABLE lease
 
 CREATE TABLE student 
 (
-  stu_id INTEGER NOT NULL UNIQUE, 
+  stu_id INTEGER, 
   stu_fname VARCHAR2(20) NOT NULL, 
   stu_lname VARCHAR2(20) NOT NULL, 
   stu_address VARCHAR2(20) NOT NULL, 
