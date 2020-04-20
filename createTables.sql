@@ -13,10 +13,12 @@ CREATE TABLE director
 CREATE TABLE degree
 (
     deg_id INTEGER,
-    deg_name VARCHAR2(20) NOT NULL UNIQUE,
+    deg_name VARCHAR2(40) NOT NULL UNIQUE,
     deg_credits NUMBER(3) NOT NULL,
+    deg_director INTEGER,
 
-    PRIMARY KEY (deg_id)
+    PRIMARY KEY (deg_id),
+    FOREIGN KEY (deg_director) REFERENCES director(dir_id)
 );
 
 CREATE TABLE advisor
@@ -27,7 +29,7 @@ CREATE TABLE advisor
     adv_position VARCHAR2(20) NOT NULL,
     adv_phone NUMBER(9) NOT NULL,
     adv_room NUMBER(5) NOT NULL,
-    adv_department VARCHAR(20) NOT NULL,
+    adv_department VARCHAR(40) NOT NULL,
 
     PRIMARY KEY (adv_id)
 );
@@ -49,11 +51,11 @@ CREATE TABLE staff
     stf_id INTEGER,
     stf_fname VARCHAR2(20) NOT NULL,
     stf_lname VARCHAR2(20) NOT NULL,
+    stf_sex CHAR(1) NOT NULL CHECK (stf_sex IN('m', 'f')),
     stf_streetnum INTEGER NOT NULL,
     stf_street VARCHAR2(34) NOT NULL,
     stf_suburb VARCHAR2(24) NOT NULL,
-    stf_dob DATE NOT NULL,
-    stf_sex CHAR(1) NOT NULL CHECK (stf_sex IN('m', 'f')),
+    stf_dob DATE NOT NULL,  
     stf_position VARCHAR2(20) NOT NULL,
     -- Check this, most likely will be a FK when lease rent hall stuff figured out
     stf_location VARCHAR2(20) DEFAULT ('Acommodation Office'),
@@ -78,17 +80,18 @@ CREATE TABLE student
   stu_id INTEGER, 
   stu_fname VARCHAR2(20) NOT NULL, 
   stu_lname VARCHAR2(20) NOT NULL, 
-  stu_address VARCHAR2(20) NOT NULL, 
-  stu_dob DATE NOT NULL, 
   stu_sex CHAR(1) NOT NULL CHECK(stu_sex IN('m', 'f')), 
-  stu_level VARCHAR2(20) NOT NULL, 
+  stu_home_streetnum INTEGER NOT NULL,
+  stu_home_street VARCHAR2(34) NOT NULL,
+  stu_home_suburb VARCHAR2(24) NOT NULL,
+  stu_dob DATE NOT NULL, 
+  stu_level VARCHAR2(20) NOT NULL CHECK(stu_level IN('undergraduate', 'postgraduate')), 
   stu_nationality VARCHAR2(20) NOT NULL, 
-  stu_smoker VARCHAR2(1) NOT NULL, 
-  stu_sp_need VARCHAR2(20) NOT NULL, 
-  stu_add_comment VARCHAR2(20) NOT NULL,
-  stu_status VARCHAR2(20) NOT NULL, 
-  stu_contact VARCHAR2(20) NOT NULL, 
-  stu_waiting VARCHAR2(1) NOT NULL, 
+  stu_smoker VARCHAR2(1) NOT NULL CHECK (stu_smoker BETWEEN 0 AND 1), 
+  stu_sp_need VARCHAR2(300) NOT NULL, 
+  stu_comment VARCHAR2(300) NOT NULL,
+  stu_status VARCHAR2(20) NOT NULL CHECK (stu_status IN('placed', 'waiting')), 
+  stu_email VARCHAR2(30) NOT NULL UNIQUE,  
   stu_degree INTEGER NOT NULL, 
   stu_advisor INTEGER NOT NULL,
   stu_nok INTEGER,
