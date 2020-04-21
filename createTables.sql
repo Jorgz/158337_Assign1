@@ -74,7 +74,6 @@ CREATE TABLE studio
     std_suburb VARCHAR2(32) NOT NULL,
     std_postcode NUMBER(4, 0) NOT NULL,
     std_furnished VARCHAR(9) DEFAULT ('fully') NOT NULL CHECK (std_furnished IN('fully', 'partially')),
-    
     PRIMARY KEY (std_number)
 );
 
@@ -85,7 +84,8 @@ CREATE TABLE flat
     fla_street VARCHAR2(48) NOT NULL,
     fla_suburb VARCHAR2(32) NOT NULL,
     fla_postcode NUMBER(4, 0) NOT NULL,
-    std_furnished VARCHAR(9) DEFAULT ('fully') NOT NULL CHECK (std_furnished IN('fully')),
+    fla_rooms NUMBER(1, 0) NOT NULL CHECK(fla_rooms BETWEEN 4 AND 5),
+    fla_furnished VARCHAR(9) DEFAULT ('fully') NOT NULL CHECK (fla_furnished IN('fully')),
 
     PRIMARY KEY(fla_number)
 );
