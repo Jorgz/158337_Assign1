@@ -167,7 +167,7 @@ CREATE TABLE invoice
 (
     inv_number NUMBER,
     inv_due DATE NOT NULL,
-    inv_payed DATE NOT NULL,
+    inv_payed DATE,
     inv_method VARCHAR2(18) NOT NULL,
     inv_reminder DATE NOT NULL,
     inv_lease NUMBER NOT NULL,
